@@ -1,11 +1,11 @@
 name: FE test
- 
- on:
-   workflow_dispatch:
- 
- jobs:
-   test-trigger:
-     runs-on: ubuntu-latest
-     steps:
-       - name: Print
-         run: echo "FE FE"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print
+        run: echo "FE FE"
