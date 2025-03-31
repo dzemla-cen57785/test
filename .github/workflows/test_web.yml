@@ -1,4 +1,4 @@
-name: FE test
+name: FE TEST
 
 on:
   workflow_dispatch:
