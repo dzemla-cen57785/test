@@ -1,11 +1,29 @@
-name: FE test
+name: FE TEST
 
 on:
   workflow_dispatch:
+    inputs:
+      callback_token:
+        description: 'Token for reporting results'
+        required: true
 
 jobs:
   test-trigger:
     runs-on: ubuntu-latest
     steps:
-      - name: Print
+      - name: Run FE tests
         run: echo "FE FE"
+        
+      - name: Report test results
+        if: always()
+        run: |
+          # Create status file
+          status_content="{\"status\":\"${{ job.status }}\",\"flag\":\"FE_COMPLETE\"}"
+          
+          encoded_content=$(echo "$status_content" | base64 -w 0)
+          
+          curl -X PUT \
+            -H "Authorization: Bearer ${{ inputs.callback_token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/dzemla-cen57785/shared-status/contents/fe-status.json \
+            -d "{\"message\":\"Update FE test status\",\"content\":\"$encoded_content\",\"sha\":\"$(curl -s -H "Authorization: Bearer ${{ inputs.callback_token }}" https://api.github.com/repos/dzemla-cen57785/shared-status/contents/fe-status.json | jq -r '.sha')\"}"
