@@ -1,28 +1,11 @@
 name: BE TEST
-
-on:
-  workflow_dispatch:
-    inputs:
-      callback_token:
-        description: 'Token for reporting results'
-        required: true
-
-jobs:
-  test-trigger:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run BE tests
-        run: echo "BE BE"
-        
-      - name: Report test results
-        if: always()
-        run: |
-          status_content="{\"status\":\"${{ job.status }}\",\"flag\":\"BE_COMPLETE\"}"
-          
-          encoded_content=$(echo "$status_content" | base64 -w 0)
-          
-          curl -X PUT \
-            -H "Authorization: Bearer ${{ inputs.callback_token }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/dzemla-cen57785/shared-status/contents/be-status.json \
-            -d "{\"message\":\"Update BE test status\",\"content\":\"$encoded_content\",\"sha\":\"$(curl -s -H "Authorization: Bearer ${{ inputs.callback_token }}" https://api.github.com/repos/dzemla-cen57785/shared-status/contents/be-status.json | jq -r '.sha')\"}"
+ 
+ on:
+   workflow_dispatch:
+ 
+ jobs:
+   test-trigger:
+     runs-on: ubuntu-latest
+     steps:
+       - name: Print
+         run: echo "BE BE"
